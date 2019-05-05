@@ -1,4 +1,4 @@
-package com.salon24.model
+package com.salon24.dto
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty

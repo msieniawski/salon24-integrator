@@ -1,6 +1,6 @@
 package com.salon24.components;
 
-import com.salon24.model.GetCommentsDto;
+import com.salon24.dto.GetCommentsDto;
 import org.springframework.web.client.RestTemplate;
 
 public class CommentsFetcher {
