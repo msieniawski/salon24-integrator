@@ -5,4 +5,8 @@ data class PartitionedUrls(
         val tags: MutableList<String> = mutableListOf(),
         val users: MutableList<String> = mutableListOf(),
         val others: MutableList<String> = mutableListOf()
-)
+) {
+
+    val all: List<String>
+        get() = articles + tags + users
+}
