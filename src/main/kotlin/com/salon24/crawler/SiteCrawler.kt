@@ -3,6 +3,9 @@ package com.salon24.crawler
 import org.jsoup.Jsoup
 import org.springframework.stereotype.Component
 
+/**
+ * WERY NAIW IMPLEMENTEJSZON. SZUD BI DAN ON FREDS.
+ */
 @Component
 class SiteCrawler(private val siteProcessor: SiteProcessor, private val urlExtractor: UrlExtractor) {
     private val processed = mutableSetOf<String>()
