@@ -2,39 +2,26 @@ package com.salon24.crawler;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.List;
-import java.util.stream.Collectors;
 
+@Component
 class SiteCrawler {
+    private final UrlExtractor urlExtractor;
 
-    List<String> getAllUrlsOnSite(String siteUrl) throws IOException {
-        Document doc = Jsoup.connect(siteUrl).get();
-        Elements hrefs = doc.select("a");
-
-        return hrefs.stream()
-                .map(element -> element.attr("href"))
-                .map(this::sanitize)
-                .filter(this::isUrl)
-                .distinct()
-                .collect(Collectors.toList());
+    @Autowired
+    SiteCrawler(UrlExtractor urlExtractor) {
+        this.urlExtractor = urlExtractor;
     }
 
-    private String sanitize(String url) {
-        return url.startsWith("//") ? url.replace("//", "https://") : url;
-    }
+    void crawl(String siteUrl) throws IOException {
+        Document document = Jsoup.connect(siteUrl).get();
 
-    private boolean isUrl(String url) {
-        try {
-            new URL(url);
-            return true;
-        } catch (MalformedURLException e) {
-            return false;
-        }
-    }
+        PartitionedUrls urls = urlExtractor.getUrlsFromSite(document);
+        System.out.println(urls);
 
+        // TODO: Do sth with urls and site
+    }
 }

@@ -1,7 +1,10 @@
 package com.salon24.crawler;
 
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 
+@Component
 class UrlPartitioner {
 
     PartitionedUrls paritionUrls(List<String> urls) {
@@ -15,7 +18,7 @@ class UrlPartitioner {
             } else if (isUser(url)) {
                 partitionedUrls.getUsers().add(url);
             } else {
-                partitionedUrls.getOther().add(url);
+                partitionedUrls.getOthers().add(url);
             }
         }
 
