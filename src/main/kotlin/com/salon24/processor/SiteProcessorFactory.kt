@@ -1,14 +1,21 @@
 package com.salon24.processor
 
 import com.salon24.crawler.SiteType
+import org.springframework.stereotype.Component
 
-object SiteProcessorFactory {
+@Component
+class SiteProcessorFactory(
+        private val articleSiteProcessor: ArticleSiteProcessor,
+        private val userSiteProcessor: UserSiteProcessor,
+        private val tagSiteProcessor: TagSiteProcessor,
+        private val otherSiteProcessor: OtherSiteProcessor
+) {
 
     fun fromType(siteType: SiteType): SiteProcessor =
             when (siteType) {
-                SiteType.ARTICLE -> ArticleSiteProcessor
-                SiteType.USER -> UserSiteProcessor
-                SiteType.TAG -> TagSiteProcessor
-                SiteType.OTHER -> OtherSiteProcessor
+                SiteType.ARTICLE -> articleSiteProcessor
+                SiteType.USER -> userSiteProcessor
+                SiteType.TAG -> tagSiteProcessor
+                SiteType.OTHER -> otherSiteProcessor
             }
 }

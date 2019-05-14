@@ -8,13 +8,17 @@ import org.springframework.stereotype.Component
  * WERY NAIW IMPLEMENTEJSZON. SZUD BI DAN ON FREDS.
  */
 @Component
-class SiteCrawler(private val urlExtractor: UrlExtractor, private val siteClasifier: SiteClasifier) {
+class SiteCrawler(
+        private val urlExtractor: UrlExtractor,
+        private val siteClasifier: SiteClasifier,
+        private val siteProcessorFactory: SiteProcessorFactory
+) {
     private val processed = mutableSetOf<String>()
 
     fun crawl(url: String) {
         val site = extractSiteInfo(url)
 
-        val siteProcessor = SiteProcessorFactory.fromType(site.type)
+        val siteProcessor = siteProcessorFactory.fromType(site.type)
         siteProcessor.process(site)
 
         processed.add(url)
