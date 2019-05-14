@@ -6,12 +6,14 @@ import java.net.MalformedURLException
 import java.net.URL
 
 @Component
-class UrlExtractor(private val urlPartitioner: UrlPartitioner) {
+class UrlExtractor {
 
-    fun extractUrlsFromSite(document: Document) =
-            urlPartitioner.partition(getAllUrls(document))
+    fun extractSalon24UrlsFromSite(document: Document): List<String> =
+            extractUrlsFromSite(document)
+                    .filter { it.startsWith("https://www.salon24.pl") }
+                    .filterNot { it.startsWith("https://www.salon24.pl/galeria") }
 
-    private fun getAllUrls(document: Document): List<String> =
+    private fun extractUrlsFromSite(document: Document): List<String> =
             document.select("a")
                     .map { it.attr("href") }
                     .map { fixProtocol(it) }

@@ -4,6 +4,6 @@ import org.jsoup.nodes.Document
 
 data class SiteInfo(
         val url: String,
-        val document: Document,
-        val paritionedUrls: PartitionedUrls
+        val type: SiteType,
+        val document: Document
 )
