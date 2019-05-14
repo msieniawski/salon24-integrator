@@ -1,4 +1,4 @@
-package com.salon24.dto
+package com.salon24.comments
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
