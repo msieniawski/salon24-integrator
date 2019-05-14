@@ -10,5 +10,5 @@ class ArticleSiteProcessor : SiteProcessor {
 
     override fun process(site: SiteInfo) {
         log.debug("Processing an article: ${site.url}")
-    }it a
+    }
 }
