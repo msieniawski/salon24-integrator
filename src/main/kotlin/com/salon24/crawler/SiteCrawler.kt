@@ -1,5 +1,6 @@
 package com.salon24.crawler
 
+import com.salon24.processor.SiteProcessorFactory
 import org.jsoup.Jsoup
 import org.springframework.stereotype.Component
 
@@ -7,17 +8,15 @@ import org.springframework.stereotype.Component
  * WERY NAIW IMPLEMENTEJSZON. SZUD BI DAN ON FREDS.
  */
 @Component
-class SiteCrawler(
-        private val siteProcessor: SiteProcessor,
-        private val urlExtractor: UrlExtractor,
-        private val siteClasifier: SiteClasifier
-) {
+class SiteCrawler(private val urlExtractor: UrlExtractor, private val siteClasifier: SiteClasifier) {
     private val processed = mutableSetOf<String>()
 
     fun crawl(url: String) {
         val site = extractSiteInfo(url)
 
+        val siteProcessor = SiteProcessorFactory.fromType(site.type)
         siteProcessor.process(site)
+
         processed.add(url)
 
         urlExtractor.extractSalon24UrlsFromSite(site.document)
