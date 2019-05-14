@@ -29,7 +29,7 @@ class SiteCrawler(
     }
 
     private fun extractSiteInfo(url: String) =
-            SiteInfo(
+            Site(
                     url = url,
                     type = siteClasifier.getSiteTypeByUrl(url),
                     document = Jsoup.connect(url).get()

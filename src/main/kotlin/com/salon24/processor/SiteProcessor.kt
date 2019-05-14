@@ -1,8 +1,8 @@
 package com.salon24.processor
 
-import com.salon24.crawler.SiteInfo
+import com.salon24.crawler.Site
 
 interface SiteProcessor {
-    fun process(site: SiteInfo)
+    fun process(site: Site)
 }
 
