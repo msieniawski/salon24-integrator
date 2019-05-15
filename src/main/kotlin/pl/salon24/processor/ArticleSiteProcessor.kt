@@ -10,6 +10,6 @@ class ArticleSiteProcessor(private val articleRepository: ArticleRepository) : S
     private val log by logger()
 
     override fun process(site: Site) {
-        log.info("Processing an article: ${site.url}")
+        log.debug("Processing ARTICLE: ${site.url}")
     }
 }

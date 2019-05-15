@@ -31,13 +31,10 @@ class SiteCrawler(
 
     inner class ProcessSiteTask(private val url: String) : Runnable {
         override fun run() {
-            val document: Document = downloadSite(url) ?: return
-
-            log.info("Visiting $url")
-
-            val site = Site(url = url,
+            val site = Site(
+                    url = url,
                     type = siteClasifier.getSiteTypeByUrl(url),
-                    document = document)
+                    document = downloadSite(url) ?: return)
 
             processSite(site)
             processNext(site)
