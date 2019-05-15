@@ -50,10 +50,14 @@ class SiteCrawler(
                 }
 
         private fun processSite(site: Site) {
-            val siteProcessor = siteProcessorFactory.fromType(site.type)
-            siteProcessor.process(site)
+            try {
+                val siteProcessor = siteProcessorFactory.fromType(site.type)
+                siteProcessor.process(site)
 
-            processedSiteRepository.save(ProcessedSite(site.url))
+                processedSiteRepository.save(ProcessedSite(site.url))
+            } catch (e: Exception) {
+                log.error("Error processing site: ${site.url}!", e)
+            }
         }
 
         private fun processNext(site: Site) {

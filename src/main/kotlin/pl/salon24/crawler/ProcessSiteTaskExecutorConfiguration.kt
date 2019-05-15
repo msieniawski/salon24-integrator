@@ -16,7 +16,7 @@ class ProcessSiteTaskExecutorConfiguration {
                 corePoolSize = POOL_SIZE
                 maxPoolSize = POOL_SIZE
                 setThreadNamePrefix("process-site-thread-")
-                setAwaitTerminationSeconds(10)
+                setAwaitTerminationSeconds(1)
                 initialize()
             }
 }
