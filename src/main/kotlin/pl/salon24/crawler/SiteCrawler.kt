@@ -10,14 +10,14 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor
 import org.springframework.stereotype.Component
 import pl.salon24.model.entity.ProcessedSite
 import pl.salon24.model.repository.ProcessedSiteRepository
-import pl.salon24.processor.SiteProcessorFactory
+import pl.salon24.parser.SiteParserFactory
 import pl.salon24.utils.logger
 
 @Component
 class SiteCrawler(
         private val urlExtractor: UrlExtractor,
         private val siteClasifier: SiteClasifier,
-        private val siteProcessorFactory: SiteProcessorFactory,
+        private val siteParserFactory: SiteParserFactory,
         private val processedSiteRepository: ProcessedSiteRepository,
         private val processSiteTaskExecutor: ThreadPoolTaskExecutor
 ) : ApplicationRunner {
@@ -51,8 +51,8 @@ class SiteCrawler(
 
         private fun processSite(site: Site) {
             try {
-                val siteProcessor = siteProcessorFactory.fromType(site.type)
-                siteProcessor.process(site)
+                val siteParser = siteParserFactory.fromType(site.type)
+                siteParser.parse(site)
 
                 processedSiteRepository.save(ProcessedSite(site.url))
             } catch (e: Exception) {

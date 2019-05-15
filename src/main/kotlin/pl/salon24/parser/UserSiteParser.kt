@@ -1,14 +1,14 @@
-package pl.salon24.processor
+package pl.salon24.parser
 
 import org.springframework.stereotype.Component
 import pl.salon24.crawler.Site
 import pl.salon24.utils.logger
 
 @Component
-class TagSiteProcessor : SiteProcessor {
+class UserSiteParser : SiteParser {
     private val log by logger()
 
-    override fun process(site: Site) {
-        log.debug("Processing TAG: ${site.url}")
+    override fun parse(site: Site) {
+        log.debug("Parsing USER: ${site.url}")
     }
 }

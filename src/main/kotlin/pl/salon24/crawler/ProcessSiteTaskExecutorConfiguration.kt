@@ -15,7 +15,7 @@ class ProcessSiteTaskExecutorConfiguration {
             ThreadPoolTaskExecutor().apply {
                 corePoolSize = POOL_SIZE
                 maxPoolSize = POOL_SIZE
-                setThreadNamePrefix("process-site-thread-")
+                setThreadNamePrefix("parse-site-thread-")
                 setAwaitTerminationSeconds(1)
                 initialize()
             }

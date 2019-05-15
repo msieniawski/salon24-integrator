@@ -10,6 +10,7 @@ import javax.persistence.Table
 data class Article(
         @Id
         val id: String,
+        val url: String,
         val title: String,
         @Column(columnDefinition = "TEXT")
         val content: String
