@@ -11,5 +11,8 @@ class ArticleSiteProcessor(private val articleRepository: ArticleRepository) : S
 
     override fun process(site: Site) {
         log.debug("Processing ARTICLE: ${site.url}")
+
+        val title = site.document.select("h1").text()
+        log.debug("title : $title")
     }
 }

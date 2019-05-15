@@ -2,7 +2,6 @@ package pl.salon24.crawler
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.core.task.TaskExecutor
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor
 
 @Configuration
@@ -12,11 +11,12 @@ class ProcessSiteTaskExecutorConfiguration {
     }
 
     @Bean
-    fun processSiteTaskExecutor(): TaskExecutor =
+    fun processSiteTaskExecutor(): ThreadPoolTaskExecutor =
             ThreadPoolTaskExecutor().apply {
                 corePoolSize = POOL_SIZE
                 maxPoolSize = POOL_SIZE
                 setThreadNamePrefix("process-site-thread-")
+                setAwaitTerminationSeconds(10)
                 initialize()
             }
 }

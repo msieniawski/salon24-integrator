@@ -5,7 +5,8 @@ import org.jsoup.nodes.Document
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
-import org.springframework.core.task.TaskExecutor
+import org.springframework.core.task.TaskRejectedException
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor
 import org.springframework.stereotype.Component
 import pl.salon24.model.entity.ProcessedSite
 import pl.salon24.model.repository.ProcessedSiteRepository
@@ -18,7 +19,7 @@ class SiteCrawler(
         private val siteClasifier: SiteClasifier,
         private val siteProcessorFactory: SiteProcessorFactory,
         private val processedSiteRepository: ProcessedSiteRepository,
-        private val processSiteTaskExecutor: TaskExecutor
+        private val processSiteTaskExecutor: ThreadPoolTaskExecutor
 ) : ApplicationRunner {
     private val log by logger()
 
@@ -58,7 +59,15 @@ class SiteCrawler(
         private fun processNext(site: Site) {
             urlExtractor.extractSalon24UrlsFromSite(site.document)
                     .filterNot { processedSiteRepository.existsByUrl(it) }
-                    .forEach { processSiteTaskExecutor.execute(ProcessSiteTask(it)) }
+                    .forEach { execute(ProcessSiteTask(it)) }
+        }
+
+        private fun execute(task: ProcessSiteTask) {
+            try {
+                processSiteTaskExecutor.execute(task)
+            } catch (e: TaskRejectedException) {
+                log.warn("Task rejected: ${task.url}")
+            }
         }
     }
 
