@@ -2,6 +2,9 @@ package pl.salon24.comments
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 
 data class GetCommentsDto(
         val error: String?,
@@ -17,9 +20,19 @@ data class CommentsDataDto(
 ) {
 
     @JsonCreator
-    constructor(sources: List<*>, comments: CommentsDto, users: Any) :
-            this(sources, comments, if (users is UsersDto) users else UsersDto())
+    constructor(sources: List<*>, comments: CommentsDto, users: JsonNode) :
+            this(sources, comments, convertUsers(users))
 }
+
+private val mapper = jacksonObjectMapper()
+
+private fun convertUsers(users: JsonNode): UsersDto =
+        UsersDto().apply {
+            if (!users.isArray) {
+                val usersById: Map<String, UserDto> = mapper.convertValue(users, object : TypeReference<HashMap<String, UserDto>>() {})
+                putAll(usersById)
+            }
+        }
 
 data class CommentsDto(
         val sourceId: String,
@@ -52,6 +65,6 @@ class UsersDto : HashMap<String, UserDto>()
 data class UserDto(
         val id: String,
         val nick: String,
-        val url: String,
+        val url: String?,
         val img: String
 )
