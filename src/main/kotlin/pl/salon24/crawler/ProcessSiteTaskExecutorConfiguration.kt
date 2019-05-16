@@ -7,7 +7,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor
 @Configuration
 class ProcessSiteTaskExecutorConfiguration {
     companion object {
-        private val POOL_SIZE = Runtime.getRuntime().availableProcessors()
+        private const val POOL_SIZE = 32
     }
 
     @Bean
