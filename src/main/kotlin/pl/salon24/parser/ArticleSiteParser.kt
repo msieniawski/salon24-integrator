@@ -1,6 +1,7 @@
 package pl.salon24.parser
 
 import org.springframework.stereotype.Component
+import pl.salon24.comments.CommentsProcessor
 import pl.salon24.crawler.Site
 import pl.salon24.model.entity.Article
 import pl.salon24.model.repository.ArticleRepository
@@ -8,7 +9,10 @@ import pl.salon24.utils.logger
 import java.lang.RuntimeException
 
 @Component
-class ArticleSiteParser(private val articleRepository: ArticleRepository) : SiteParser {
+class ArticleSiteParser(
+        private val articleRepository: ArticleRepository,
+        private val commentsProcessor: CommentsProcessor
+) : SiteParser {
     private val log by logger()
 
     companion object {
@@ -24,10 +28,13 @@ class ArticleSiteParser(private val articleRepository: ArticleRepository) : Site
 
         val article = Article(id, site.url, title, content)
         articleRepository.save(article)
+
+        commentsProcessor.processCommentsForArticle(article)
     }
 
     private fun extractIdFromUrl(url: String): String {
         val matchResult = ID_IN_URL_REGEX.find(url) ?: throw RuntimeException("Unable to extract article id from url: $url")
         return matchResult.groupValues[1]
     }
+
 }
