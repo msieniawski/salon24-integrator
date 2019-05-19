@@ -30,7 +30,7 @@ class SiteCrawler(
         processSiteTaskExecutor.execute(ProcessSiteTask(initialUrl))
     }
 
-    inner class ProcessSiteTask(private val url: String) : Runnable {
+    private inner class ProcessSiteTask(private val url: String) : Runnable {
         override fun run() {
             val site = Site(
                     url = url,

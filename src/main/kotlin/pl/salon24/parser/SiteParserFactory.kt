@@ -1,7 +1,7 @@
 package pl.salon24.parser
 
-import pl.salon24.crawler.SiteType
 import org.springframework.stereotype.Component
+import pl.salon24.crawler.SiteType
 
 @Component
 class SiteParserFactory(

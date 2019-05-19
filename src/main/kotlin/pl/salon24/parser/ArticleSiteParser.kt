@@ -6,7 +6,6 @@ import pl.salon24.crawler.Site
 import pl.salon24.model.entity.Article
 import pl.salon24.model.repository.ArticleRepository
 import pl.salon24.utils.logger
-import java.lang.RuntimeException
 
 @Component
 class ArticleSiteParser(

@@ -6,7 +6,7 @@ import pl.salon24.model.entity.Comment
 import pl.salon24.model.mapper.CommentDtoToEntityMapper
 import pl.salon24.model.mapper.UserDtoToEntityMapper
 import pl.salon24.model.repository.CommentRepository
-import pl.salon24.model.repository.UserRepository
+import pl.salon24.userpersister.UserPersister
 import pl.salon24.utils.logger
 
 @Component
@@ -14,7 +14,7 @@ class CommentsProcessor(
         private val commentMapper: CommentDtoToEntityMapper,
         private val commentRepository: CommentRepository,
         private val userMapper: UserDtoToEntityMapper,
-        private val userRepository: UserRepository
+        private val userPersister: UserPersister
 ) {
     private val log by logger()
 
@@ -32,8 +32,7 @@ class CommentsProcessor(
         val commentsDto: List<CommentDto> = getCommentsDto.data.comments.data
 
         val users = userMapper.map(usersDto)
-                .filterNot { userRepository.existsById(it.id) }
-        userRepository.saveAll(users)
+        userPersister.save(users)
 
         val comments: List<Comment> = commentMapper.map(commentsDto)
         commentRepository.saveAll(comments)

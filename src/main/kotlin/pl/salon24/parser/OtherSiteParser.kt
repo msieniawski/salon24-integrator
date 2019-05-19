@@ -1,7 +1,7 @@
 package pl.salon24.parser
 
-import pl.salon24.crawler.Site
 import org.springframework.stereotype.Component
+import pl.salon24.crawler.Site
 import pl.salon24.utils.logger
 
 @Component
