@@ -2,20 +2,22 @@ package pl.salon24.userpersister
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Scope
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor
 
 @Configuration
-class UserPersisterConfiguration {
+class PersisterConfiguration {
     companion object {
         private const val POOL_SIZE = 1
     }
 
     @Bean
-    fun userPersisterTaskExecutor(): ThreadPoolTaskExecutor =
+    @Scope("prototype")
+    fun persisterTaskExecutor(): ThreadPoolTaskExecutor =
             ThreadPoolTaskExecutor().apply {
                 corePoolSize = POOL_SIZE
                 maxPoolSize = POOL_SIZE
-                setThreadNamePrefix("user-persister-thread--")
+                setThreadNamePrefix("persister-thread--")
                 setAwaitTerminationSeconds(1)
                 initialize()
             }

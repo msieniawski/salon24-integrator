@@ -4,12 +4,12 @@ import org.springframework.stereotype.Component
 import pl.salon24.comments.CommentsProcessor
 import pl.salon24.crawler.Site
 import pl.salon24.model.entity.Article
-import pl.salon24.model.repository.ArticleRepository
+import pl.salon24.userpersister.ArticlePersister
 import pl.salon24.utils.logger
 
 @Component
 class ArticleSiteParser(
-        private val articleRepository: ArticleRepository,
+        private val articlePersister: ArticlePersister,
         private val commentsProcessor: CommentsProcessor
 ) : SiteParser {
     private val log by logger()
@@ -26,7 +26,7 @@ class ArticleSiteParser(
         val content = site.document.getElementsByClass("article-content").text()
 
         val article = Article(id, site.url, title, content)
-        articleRepository.save(article)
+        articlePersister.persist(article)
 
         commentsProcessor.processCommentsForArticle(article)
     }

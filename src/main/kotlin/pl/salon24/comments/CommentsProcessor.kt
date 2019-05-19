@@ -5,14 +5,14 @@ import pl.salon24.model.entity.Article
 import pl.salon24.model.entity.Comment
 import pl.salon24.model.mapper.CommentDtoToEntityMapper
 import pl.salon24.model.mapper.UserDtoToEntityMapper
-import pl.salon24.model.repository.CommentRepository
+import pl.salon24.userpersister.CommentPersister
 import pl.salon24.userpersister.UserPersister
 import pl.salon24.utils.logger
 
 @Component
 class CommentsProcessor(
         private val commentMapper: CommentDtoToEntityMapper,
-        private val commentRepository: CommentRepository,
+        private val commentPersister: CommentPersister,
         private val userMapper: UserDtoToEntityMapper,
         private val userPersister: UserPersister
 ) {
@@ -32,9 +32,9 @@ class CommentsProcessor(
         val commentsDto: List<CommentDto> = getCommentsDto.data.comments.data
 
         val users = userMapper.map(usersDto)
-        userPersister.save(users)
+        userPersister.persist(users)
 
         val comments: List<Comment> = commentMapper.map(commentsDto)
-        commentRepository.saveAll(comments)
+        commentPersister.persist(comments)
     }
 }
