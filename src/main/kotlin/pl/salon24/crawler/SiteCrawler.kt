@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component
 import pl.salon24.model.entity.ProcessedSite
 import pl.salon24.model.repository.ProcessedSiteRepository
 import pl.salon24.parser.SiteParserFactory
+import pl.salon24.persister.ProcessedSitePersister
 import pl.salon24.utils.logger
 
 @Component
@@ -18,6 +19,7 @@ class SiteCrawler(
         private val urlExtractor: UrlExtractor,
         private val siteClasifier: SiteClasifier,
         private val siteParserFactory: SiteParserFactory,
+        private val processedSitePersister: ProcessedSitePersister,
         private val processedSiteRepository: ProcessedSiteRepository,
         private val processSiteTaskExecutor: ThreadPoolTaskExecutor
 ) : ApplicationRunner {
@@ -54,7 +56,7 @@ class SiteCrawler(
                 val siteParser = siteParserFactory.fromType(site.type)
                 siteParser.parse(site)
 
-                processedSiteRepository.save(ProcessedSite(site.url))
+                processedSitePersister.persist(ProcessedSite(site.url))
             } catch (e: Exception) {
                 log.error("Error processing site: ${site.url}!", e)
             }

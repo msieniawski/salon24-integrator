@@ -17,7 +17,7 @@ class PersisterConfiguration {
             ThreadPoolTaskExecutor().apply {
                 corePoolSize = POOL_SIZE
                 maxPoolSize = POOL_SIZE
-                setThreadNamePrefix("persister-thread--")
+                setThreadNamePrefix("persister-")
                 setAwaitTerminationSeconds(1)
                 initialize()
             }
