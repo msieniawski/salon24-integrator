@@ -1,4 +1,4 @@
-package pl.salon24.userpersister
+package pl.salon24.persister
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor

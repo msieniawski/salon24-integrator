@@ -1,4 +1,4 @@
-package pl.salon24.userpersister
+package pl.salon24.persister
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

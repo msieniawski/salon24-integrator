@@ -5,8 +5,8 @@ import pl.salon24.model.entity.Article
 import pl.salon24.model.entity.Comment
 import pl.salon24.model.mapper.CommentDtoToEntityMapper
 import pl.salon24.model.mapper.UserDtoToEntityMapper
-import pl.salon24.userpersister.CommentPersister
-import pl.salon24.userpersister.UserPersister
+import pl.salon24.persister.CommentPersister
+import pl.salon24.persister.UserPersister
 import pl.salon24.utils.logger
 
 @Component

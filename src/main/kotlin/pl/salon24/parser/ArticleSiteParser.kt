@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component
 import pl.salon24.comments.CommentsProcessor
 import pl.salon24.crawler.Site
 import pl.salon24.model.entity.Article
-import pl.salon24.userpersister.ArticlePersister
+import pl.salon24.persister.ArticlePersister
 import pl.salon24.utils.logger
 
 @Component
