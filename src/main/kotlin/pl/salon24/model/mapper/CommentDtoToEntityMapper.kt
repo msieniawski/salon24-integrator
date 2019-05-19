@@ -3,14 +3,21 @@ package pl.salon24.model.mapper
 import org.springframework.stereotype.Component
 import pl.salon24.comments.CommentDto
 import pl.salon24.model.entity.Comment
+import pl.salon24.model.entity.User
+import java.lang.RuntimeException
 
 @Component
-class CommentDtoToEntityMapper : Mapper<CommentDto, Comment> {
+class CommentDtoToEntityMapper {
 
-    override fun map(from: CommentDto) =
+    fun map(from: Iterable<CommentDto>, users: List<User>): List<Comment> {
+        val usersById = users.map { it.id to it }.toMap()
+        return from.map { map(it, usersById) }
+    }
+
+    private fun map(from: CommentDto, usersById: Map<String, User>) =
             Comment(
                     id = from.id,
-                    userId = from.userId,
+                    author = usersById[from.userId] ?: throw RuntimeException("Invalid response (user not found with id: ${from.userId})"),
                     created = from.created,
                     content = from.content,
                     format = from.format,

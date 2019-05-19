@@ -1,8 +1,10 @@
 package pl.salon24.model.entity
 
+import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Id
+import javax.persistence.OneToOne
 import javax.persistence.Table
 
 @Entity
@@ -10,7 +12,8 @@ import javax.persistence.Table
 data class Comment(
         @Id
         val id: String,
-        val userId: String,
+        @OneToOne(cascade = [CascadeType.ALL])
+        val author: User,
         val created: String,
         @Column(columnDefinition = "TEXT")
         val content: String,
