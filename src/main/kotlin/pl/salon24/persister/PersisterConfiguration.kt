@@ -2,7 +2,6 @@ package pl.salon24.persister
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Scope
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor
 
 @Configuration
@@ -12,12 +11,11 @@ class PersisterConfiguration {
     }
 
     @Bean
-    @Scope("prototype")
     fun persisterTaskExecutor(): ThreadPoolTaskExecutor =
             ThreadPoolTaskExecutor().apply {
                 corePoolSize = POOL_SIZE
                 maxPoolSize = POOL_SIZE
-                setThreadNamePrefix("persister-")
+                threadNamePrefix = "persister-"
                 setAwaitTerminationSeconds(1)
                 initialize()
             }
