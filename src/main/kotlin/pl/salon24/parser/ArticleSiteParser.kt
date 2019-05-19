@@ -30,10 +30,10 @@ class ArticleSiteParser(
         val title = site.document.select("h1").text()
         val content = site.document.getElementsByClass("article-content").text()
 
-        val article = Article(id, site.url, title, content)
-        articlePersister.persist(article)
+        val author = extractAuthor(site)
 
-        extractUser(site)
+        val article = Article(id, site.url, title, author, content)
+        articlePersister.persist(article)
 
         commentsProcessor.processCommentsForArticle(article)
     }
@@ -43,7 +43,7 @@ class ArticleSiteParser(
         return matchResult.groupValues[1]
     }
 
-    private fun extractUser(site: Site): User {
+    private fun extractAuthor(site: Site): User {
         val followButton: Element = site.document.select("button[data-follow^=User:]").first()
         val userId = followButton.attr("data-follow").split(":")[1]
 
