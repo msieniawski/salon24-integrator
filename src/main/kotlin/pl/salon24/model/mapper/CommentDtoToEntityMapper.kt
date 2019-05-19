@@ -9,10 +9,9 @@ import java.lang.RuntimeException
 @Component
 class CommentDtoToEntityMapper {
 
-    fun map(from: Iterable<CommentDto>, users: List<User>): List<Comment> {
-        val usersById = users.map { it.id to it }.toMap()
-        return from.map { map(it, usersById) }
-    }
+    fun map(from: Iterable<CommentDto>, usersById: Map<String, User>): List<Comment> =
+            from.map { map(it, usersById) }
+
 
     private fun map(from: CommentDto, usersById: Map<String, User>) =
             Comment(
@@ -26,7 +25,7 @@ class CommentDtoToEntityMapper {
                     dislikes = from.dislikes,
                     votes = from.votes,
                     hidden = from.hidden,
-                    deleted = from.deleted
-                    //comments = map(from.comments?.data ?: emptyList())
+                    deleted = from.deleted,
+                    comments = map(from.comments?.data ?: emptyList(), usersById).toSet()
             )
 }

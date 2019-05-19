@@ -34,7 +34,7 @@ class CommentsProcessor(
         val users = userMapper.map(usersDto)
         userPersister.persist(users)
 
-        val comments: List<Comment> = commentMapper.map(commentsDto, users)
+        val comments: List<Comment> = commentMapper.map(commentsDto, users.map { it.id to it }.toMap())
         commentPersister.persist(comments)
     }
 }
