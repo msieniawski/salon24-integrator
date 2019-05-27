@@ -37,7 +37,8 @@ class SiteCrawler(
             val site = Site(
                     url = url,
                     type = siteClasifier.getSiteTypeByUrl(url),
-                    document = downloadSite(url) ?: return)
+                    document = downloadSite(url) ?: return
+            )
 
             processSite(site)
             processNext(site)
@@ -72,7 +73,7 @@ class SiteCrawler(
             try {
                 processSiteTaskExecutor.execute(task)
             } catch (e: TaskRejectedException) {
-                log.warn("Task rejected: ${task.url}")
+                //log.warn("Task rejected: ${task.url}")
             }
         }
     }

@@ -9,6 +9,6 @@ class OtherSiteParser : SiteParser {
     private val log by logger()
 
     override fun parse(site: Site) {
-        log.debug("Parsing OTHER: ${site.url}")
+        log.debug("Skipping: ${site.url}")
     }
 }
