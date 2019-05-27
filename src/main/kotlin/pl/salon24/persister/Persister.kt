@@ -1,5 +1,6 @@
 package pl.salon24.persister
 
+import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor
 
@@ -20,7 +21,11 @@ abstract class Persister<T, ID>(
         constructor(t: T) : this(listOf(t))
 
         override fun run() {
-            repository.saveAll(ts)
+            try {
+                repository.saveAll(ts)
+            } catch (e: DataIntegrityViolationException) {
+
+            }
         }
     }
 }

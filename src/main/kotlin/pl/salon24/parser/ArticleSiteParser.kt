@@ -5,13 +5,16 @@ import pl.salon24.comments.CommentsProcessor
 import pl.salon24.crawler.Site
 import pl.salon24.model.entity.Article
 import pl.salon24.persister.ArticlePersister
+import pl.salon24.persister.TagPersister
 import pl.salon24.utils.logger
 
 @Component
 class ArticleSiteParser(
         private val articlePersister: ArticlePersister,
         private val commentsProcessor: CommentsProcessor,
-        private val userExtractor: UserExtractor
+        private val userExtractor: UserExtractor,
+        private val tagExtractor: TagExtractor,
+        private val tagPersister: TagPersister
 ) : SiteParser {
     private val log by logger()
 
@@ -27,8 +30,12 @@ class ArticleSiteParser(
         val content = site.document.getElementsByClass("article-content").text()
         val author = userExtractor.extractUser(site)
 
-        val article = Article(id, site.url, title, author, content)
+        val tags = tagExtractor.extractTags(site).toSet()
+        val article = Article(id, site.url, title, author, content, tags)
+        tags.forEach { it.articles.add(article) }
         articlePersister.persist(article)
+
+        //tagPersister.persist(tags)
 
         commentsProcessor.processCommentsForArticle(article)
     }
