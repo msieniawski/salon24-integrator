@@ -18,7 +18,7 @@ class TagExtractor(private val tagRepository: TagRepository) {
                 .map { handleExisting(it) }
     }
 
-    private fun createTagFromUrl(url: String): Tag {
+    fun createTagFromUrl(url: String): Tag {
         val matchResult = (Regex("//www.salon24.pl/k/(\\d+),(.+)").find(url)
                 ?: throw RuntimeException("Unable to extract tag info from url: $url"))
 
@@ -28,7 +28,7 @@ class TagExtractor(private val tagRepository: TagRepository) {
         return Tag(id, tag, mutableSetOf())
     }
 
-    private fun handleExisting(tag: Tag): Tag =
+    fun handleExisting(tag: Tag): Tag =
             when (val tagFromDb = tagRepository.findByIdOrNull(tag.id)) {
                 null -> tag
                 else -> tagFromDb

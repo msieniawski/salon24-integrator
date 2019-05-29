@@ -24,7 +24,7 @@ abstract class Persister<T, ID>(
             try {
                 repository.saveAll(ts)
             } catch (e: DataIntegrityViolationException) {
-
+                // Intentionally left blank
             }
         }
     }
